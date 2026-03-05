@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的世界1.21.7 Fabric模组</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 自定义Tailwind配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6', // 蓝色系主色调
+                        secondary: '#10B981', // 绿色辅助色
+                        accent: '#92400E', // 棕色强调色
+                        dark: '#1E293B',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        minecraft: ['Minecraft', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+            .block-bg {
+                background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzE5MTkxOSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIiAvPjwvc3ZnPg==');
+            }
+        }
+    </style>
+    <style>
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /* 平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-gray-800 text-white font-sans">
+    <!-- 导航栏 -->
+    <header id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-gray-900/90 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <img src="2.png" alt="模组Logo" class="h-10 w-10 rounded-lg">
+                <h1 class="text-xl font-bold text-secondary">连锁采集</h1>
+            </div>
+            <!-- 桌面导航 -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#home" class="font-medium text-gray-200 hover:text-white transition-colors">首页</a>
+                <a href="#about" class="font-medium text-gray-200 hover:text-white transition-colors">关于模组</a>
+
+                <a href="#installation" class="font-medium text-gray-200 hover:text-white transition-colors">安装指南</a>
+                <a href="#download" class="font-medium text-gray-200 hover:text-white transition-colors">下载</a>
+            </nav>
+            <!-- 移动端菜单按钮 -->
+            <button id="menuBtn" class="md:hidden text-white text-xl focus:outline-none">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        <!-- 移动端导航菜单 -->
+        <div id="mobileMenu" class="md:hidden hidden bg-gray-900 shadow-lg absolute w-full">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="#home" class="py-2 font-medium text-gray-200 hover:text-white transition-colors">首页</a>
+                <a href="#about" class="py-2 font-medium text-gray-200 hover:text-white transition-colors">关于模组</a>
+
+                <a href="#installation" class="py-2 font-medium text-gray-200 hover:text-white transition-colors">安装指南</a>
+                <a href="#download" class="py-2 font-medium text-gray-200 hover:text-white transition-colors">下载</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 英雄区 -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden block-bg pt-16">
+        <div class="absolute inset-0 bg-dark/50 z-10"></div>
+        <div class="absolute inset-0 z-0">
+            <img src="https://via.placeholder.com/1920x1080" alt="我的世界背景" class="w-full h-full object-cover">
+        </div>
+        <div class="container mx-auto px-4 z-20 text-center text-white">
+            <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold mb-6 text-shadow animate-fadeIn">连锁采集</h1>
+            <p class="text-[clamp(1rem,2vw,1.25rem)] mb-8 max-w-2xl mx-auto text-shadow">为我的世界1.21.7版本打造的全新Fabric模组，提升你的游戏体验。</p>           
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#download" class="bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg">
+                    <i class="fa fa-download mr-2"></i>立即下载
+                </a>
+                <a href="#about" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg">
+                    了解更多
+                </a>
+            </div>
+            <div class="mt-16 animate-bounce">
+                <a href="#about" class="text-white text-4xl">
+                    <i class="fa fa-chevron-down"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于模组 -->
+    <section id="about" class="py-20 bg-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-white mb-4">关于模组</h2>
+                <div class="w-24 h-1 bg-secondary mx-auto"></div>
+            </div>
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2">
+                    <img src="1.png" alt="模组预览图" class="w-full h-auto rounded-lg shadow-xl">
+                </div>
+                <div class="lg:w-1/2">
+                    <h3 class="text-2xl font-bold mb-4 text-secondary">连锁采集</h3>
+                    <p class="mb-4 text-gray-300 leading-relaxed">
+                        这是一个为我的世界1.21.7版本设计的Fabric模组，做到了“无渲染”。
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="flex items-center">
+                            <i class="fa fa-check-circle text-secondary text-xl mr-2"></i>
+                            <span>支持1.21.7版本</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa fa-check-circle text-secondary text-xl mr-2"></i>
+                            <span>Fabric加载器</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa fa-check-circle text-secondary text-xl mr-2"></i>
+                            <span>多人游戏兼容（部分暂不支持）</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa fa-check-circle text-secondary text-xl mr-2"></i>
+                            <span>持续更新支持</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <!-- 安装指南 -->
+    <section id="installation" class="py-20 bg-gray-800 block-bg">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-white mb-4">安装指南</h2>
+                <div class="w-24 h-1 bg-primary mx-auto"></div>
+                <p class="mt-4 text-gray-300 max-w-2xl mx-auto">按照以下步骤安装连锁挖掘。</p>
+            </div>
+            <div class="max-w-3xl mx-auto bg-gray-700 rounded-lg shadow-xl p-8">
+                <div class="space-y-8">
+                    <!-- 步骤1 -->
+                    <div class="flex">
+                        <div class="flex-shrink-0 w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">1</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">安装Fabric加载器</h3>
+                            <p class="text-gray-300 mb-2">首先，你需要安装Fabric加载器以运行Fabric模组。</p>
+                            <ol class="list-decimal list-inside text-gray-300 space-y-1 ml-2">
+                                <li>访问 <a href="https://fabricmc.net/use/" target="_blank" class="text-primary hover:underline">Fabric官方网站</a></li>
+                                <li>下载适用于Minecraft 1.21.7的Fabric安装器</li>
+                                <li>注意，你需要下载Fabric加载器的1.16.14以上版本，否则无法加载此模组（部分，下载时有提示）</li>
+                                <li>运行安装器，选择正确的Minecraft版本和安装路径</li>
+                                <li>点击"安装"按钮完成安装</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <!-- 步骤2 -->
+                    <div class="flex">
+                        <div class="flex-shrink-0 w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">2</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">下载模组</h3>
+                            <p class="text-gray-300 mb-2">下方下载模组。</p>
+                            <ol class="list-decimal list-inside text-gray-300 space-y-1 ml-2">
+                                <li>访问本页面的<a href="#download" class="text-primary hover:underline">下载</a>部分</li>
+                                <li>选择并下载</li>
+                                <li>确保同时下载所需的前置模组</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <!-- 步骤3 -->
+                    <div class="flex">
+                        <div class="flex-shrink-0 w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">3</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">安装模组</h3>
+                            <p class="text-gray-300 mb-2">将下载的模组文件放入Minecraft的mods文件夹中。</p>
+                            <ol class="list-decimal list-inside text-gray-300 space-y-1 ml-2">
+                                <li>打开Minecraft启动器，确保已选择Fabric配置</li>
+                                <li>点击"启动选项"，然后点击"浏览"按钮找到你的Minecraft文件夹</li>
+                                <li>在Minecraft文件夹中找到"mods"文件夹，如果没有则创建一个</li>
+                                <li>将下载的连锁挖掘.jar文件放入mods文件夹中</li>
+                                <li>如果有前置模组，也将它们放入mods文件夹中</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <!-- 步骤4 -->
+                    <div class="flex">
+                        <div class="flex-shrink-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">4</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">启动游戏</h3>
+                            <p class="text-gray-300">一切准备就绪后，启动Minecraft并享受连锁采集带来的全新体验！</p>
+                            <p class="text-gray-300 mt-2"><strong>注意：</strong>确保你使用的是Minecraft 1.21.7版本，并且所有模组都兼容此版本。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 下载区 -->
+    <section id="download" class="py-20 bg-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-white mb-4">下载</h2>
+                <div class="w-24 h-1 bg-primary mx-auto"></div>
+                <p class="mt-4 text-gray-300 max-w-2xl mx-auto">获取模组，开始使用。</p>
+            </div>
+            <div class="max-w-3xl mx-auto bg-gray-700 rounded-lg shadow-xl p-8">
+                <div class="flex flex-col md:flex-row items-center justify-between mb-8 pb-8 border-b border-gray-200">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-2">连锁采集 v1.21.7</h3>
+                        <p class="text-gray-300 mt-1">兼容版本：Minecraft 1.21.7 Fabric加载器1.16.14（部分）</p>
+                    </div>
+                    <a href="https://pan.baidu.com/s/1MQ3LoB-GpZSj--SpSwhHmg?pwd=lscj" class="mt-4 md:mt-0 bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg flex items-center">
+                        <i class="fa fa-download mr-2"></i> 下载
+                    </a>
+                </div>
+                <div class="mb-8">
+                    <h4 class="text-lg font-bold mb-3">前置模组</h4>
+                    <p class="text-gray-300 mb-3">安装连锁挖掘前，你需要先安装以下前置模组：</p>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2 ml-2">
+                        <li>Fabric API - <a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api" target="_blank" class="text-primary hover:underline">下载链接</a></li>
+                        <li>Fabric sever(服务端) - <a href="https://fabricmc.net/use/server/" target="_blank" class="text-primary hover:underline">下载链接</a></li>
+                        </ul>
+                </div>
+                <div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">连锁采集</h3>
+                    <p class="text-gray-300 mb-4">为我的世界1.21.7版本打造的全新Fabric模组。</p>
+                    <div class="flex space-x-4">
+                        <a href="https://github.com/mod-author/mod-name" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-github text-xl"></i>
+                        </a>
+                        <a href="https://twitter.com/mod_author" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-twitter text-xl"></i>
+                        </a>
+                        <a href="https://discord.gg/mod-server" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-discord text-xl"></i>
+                        </a>
+                        <a href="https://youtube.com/mod-channel" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-youtube-play text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">关于模组</a></li>
+
+                        <li><a href="#installation" class="text-gray-400 hover:text-white transition-colors">安装指南</a></li>
+                        <li><a href="#download" class="text-gray-400 hover:text-white transition-colors">下载</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">联系我们</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li class="flex items-center"><i class="fa fa-envelope-o mr-2"></i> <a href="mailto:contact@example.com" class="hover:text-white transition-colors">azhongcx@163.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-gray-400">
+                <p class="mt-2">我的世界是Mojang Studios的商标. 本模组与Mojang Studios无关.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('py-2', 'shadow-md');
+                navbar.classList.remove('py-3', 'shadow-sm');
+            } else {
+                navbar.classList.add('py-3', 'shadow-sm');
+                navbar.classList.remove('py-2', 'shadow-md');
+            }
+        });
+
+        // 移动端菜单切换
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuBtn.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                menuBtn.innerHTML = '<i class="fa fa-bars"></i>';
+            } else {
+                menuBtn.innerHTML = '<i class="fa fa-times"></i>';
+            }
+        });
+
+        // 点击移动端菜单链接后关闭菜单
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenu.classList.add('hidden');
+                menuBtn.innerHTML = '<i class="fa fa-bars"></i>';
+            });
+        });
+
+        // FAQ切换
+        const faqToggles = document.querySelectorAll('.faq-toggle');
+        faqToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+                this.setAttribute('aria-expanded', !isExpanded);
+                content.classList.toggle('hidden');
+
+                if (isExpanded) {
+                    icon.classList.remove('fa-minus', 'rotate-45');
+                    icon.classList.add('fa-plus');
+                } else {
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-minus', 'rotate-45');
+                }
+            });
+        });
+
+        // 添加淡入动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('section > div > div');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            fadeElements.forEach(element => {
+                element.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
